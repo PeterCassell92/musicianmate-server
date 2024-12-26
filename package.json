@@ -41,5 +41,9 @@
     "setupFilesAfterEnv": [
       "<rootDir>/__tests__/helpers/setup.js"
     ]
+  },
+  "volta": {
+    "node": "16.13.0",
+    "yarn": "1.22.19"
   }
 }
