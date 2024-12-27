@@ -8,7 +8,6 @@ import artistsController from '../controllers/artistsController.js'
 import playlistsController from '../controllers/playlistsController.js'
 import likesController from '../controllers/likesController.js'
 
-
 const router = express.Router()
 
 //* User routes
@@ -59,6 +58,11 @@ router.route('/songs/:id/comments')
 router.route('/songs/:id/comments/:commentId')
   .put(secureRoute, songController.editComment)
   .delete(secureRoute, songController.deleteComment)
+
+router.route('/songs/:songId/lyrics/:lyricId')
+  .get(songController.getSongLyricSheet)
+  //TODO: secure get methods where applicable.
+  //.post(secureRoute, songController.createComment) // TODO: add post put delete methods for lyrics
 
 
 //* Artist routes
