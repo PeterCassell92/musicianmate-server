@@ -1,6 +1,5 @@
 import mongoose from 'mongoose'
 import commentSchema from './commentSchema.js'
-//import lyricsModel from './lyricsModel.js'
 
 const songSchema = new mongoose.Schema({
   name: { type: String, required: true },
@@ -17,7 +16,8 @@ const songSchema = new mongoose.Schema({
   likesCount: { type: Number, default: 0 },
   user: { type: mongoose.Schema.ObjectId, ref: 'User' },
   isDeleted: { type: Boolean, default: false, required: true },
-  officialLyricSheet: { type: mongoose.Schema.ObjectId, ref: 'LyricSheet', default: () => new mongoose.Types.ObjectId() },
+  officialLyricSheetId: { type: mongoose.Schema.ObjectId, ref: 'LyricSheet', default: () => new mongoose.Types.ObjectId() }, //MOCK DATA
+  //TODO: remove default and set up some initial data where these songs are linked to lyric sheets with ids so that this mocking is not necessary
 })
 
 export default mongoose.model('Song', songSchema)

@@ -42,7 +42,6 @@ async function showSingleSong(req, res, next) {
 //* Getting a particular lyric sheet
 async function getSongLyricSheet(req, res, next) {
   try {
-    const id = req.params.id
     console.log(req.params)
     //TODO:Auths and get lyrics by Id from DB
 
