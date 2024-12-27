@@ -2,6 +2,7 @@ import Song from '../models/songModel.js'
 import { NotAuthorized, NotFound } from '../lib/errors.js'
 import Artist from '../models/artistModel.js'
 import Album from '../models/albumModel.js'
+import LyricSheet from '../models/lyricsModel.js'
 
 
 //* Getting all songs
@@ -38,6 +39,24 @@ async function showSingleSong(req, res, next) {
   }
 }
 
+//* Getting a particular lyric sheet
+async function getSongLyricSheet(req, res, next) {
+  try {
+    const id = req.params.id
+    console.log(req.params)
+    //TODO:Auths and get lyrics by Id from DB
+
+    const lyricSheet = new LyricSheet()
+
+    if (!lyricSheet) {
+      throw new NotFound('No lyrics found!')
+    }
+    res.status(200).json(lyricSheet)
+
+  } catch (e) {
+    next(e)
+  }
+}
 
 //* Getting all comments for a particular song
 async function getCommentsForSong(req, res, next) {
@@ -201,6 +220,7 @@ export default {
   songsIndex,
   showSingleSong,
   getCommentsForSong,
+  getSongLyricSheet,
   uploadSong,
   removeSong,
   editSong,
