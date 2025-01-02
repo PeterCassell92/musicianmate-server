@@ -7,6 +7,7 @@ import Artist from '../models/artistModel.js'
 import Album from '../models/albumModel.js'
 import Song from '../models/songModel.js'
 import Playlist from '../models/playlistModel.js'
+import LyricSheet from '../models/lyricsModel.js'
 
 //* Users
 import usersData from './data/userData.js'
@@ -52,37 +53,30 @@ async function seedDatabase() {
       text: 'A great song, indeed.',
     }
 
+    // Seed lyric sheets
+    const lyricSheets = await LyricSheet.create(
+      songData.map((song) => ({
+        text: `Lyrics for ${song.name}`, // Default or placeholder lyrics
+        dateAdded: new Date(),
+      }))
+    )
+    console.log(`🤖 ${lyricSheets.length} lyric sheets created!`)
+    
+    // Prepare songs with linked lyric sheets
+    const songsWithLyricSheets = songData.map((song, index) => ({
+      ...song,
+      user: users[0]._id,
+      singer: artists[0]._id,
+      album: (index > songData / 2) ? albums[0]._id : albums[1], // Assume all songs belong to the first album
+      officialLyricSheet: lyricSheets[index],
+      isDeleted: false,
+    }))
 
-    //* Seeding songs
-    const songsWithUserAndBensoundAlbum = Array()
-    const songsWithUserAndYesterdayAlbum = Array()
+    const songs = await Song.create(songsWithLyricSheets)
+    console.log(`🤖 ${songs.length} songs created and linked to lyric sheets!`)
 
-    for (let i = 0; i < Math.floor((songData.length / 2)); i++) {
-      songsWithUserAndBensoundAlbum.push({
-        ...songData[i],
-        user: users[0]._id,
-        singer: artists[0],
-        album: albums[0],
-        comments: commentToAdd,
-        isDeleted: false,
-      })
-    }
-    for (let i = Math.floor((songData.length / 2)); i < songData.length; i++) {
-      songsWithUserAndYesterdayAlbum.push({
-        ...songData[i],
-        user: users[0]._id,
-        singer: artists[0],
-        album: albums[1],
-        comments: commentToAdd,
-        isDeleted: false,
-      })
-    }
-
-    const songsBensound = await Song.create(songsWithUserAndBensoundAlbum)
-    const songsYesterday = await Song.create(songsWithUserAndYesterdayAlbum)
-    console.log(`${songsBensound.length} songs have been added`)
-    console.log(`${songsYesterday.length} songs have been added`)
-
+    const songsBensound = songs.filter((song) => song.album.toString() === albums[0]._id.toString())
+    const songsYesterday = songs.filter((song) => song.album.toString() === albums[1]._id.toString())
 
     //* Creating a playlist and add songs to it
     // Initial BenSound playlist

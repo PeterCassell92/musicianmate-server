@@ -28,6 +28,7 @@ async function showSingleSong(req, res, next) {
       .populate('comments')
       .populate('artists')
       .populate('album')
+      .populate('officialLyricSheet')
 
     if (!song) {
       throw new NotFound('No song found!')
@@ -42,10 +43,12 @@ async function showSingleSong(req, res, next) {
 //* Getting a particular lyric sheet
 async function getSongLyricSheet(req, res, next) {
   try {
-    console.log(req.params)
-    //TODO:Auths and get lyrics by Id from DB
+    //TODO: Apply auths specific to user acces to song lyrics
+    if (!req.params.lyricId){
+      throw new NotFound('No lyric sheet Id passed')
+    }
 
-    const lyricSheet = new LyricSheet()
+    const lyricSheet = await LyricSheet.findById(req.params.lyricId)
 
     if (!lyricSheet) {
       throw new NotFound('No lyrics found!')
