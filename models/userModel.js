@@ -4,7 +4,6 @@ import mongooseHidden from 'mongoose-hidden'
 import bcrypt from 'bcrypt'
 import userSchema from './userSchema.js'
 
-
 //* Hashing the password
 userSchema.pre('save', function encryptPassword(next) {
   if (this.isModified('password')) {
@@ -13,12 +12,10 @@ userSchema.pre('save', function encryptPassword(next) {
   next()
 })
 
-
 //* Comparing hashed password given with that stored in the DB
 userSchema.methods.validatePassword = function validatePassword(password) {
   return bcrypt.compareSync(password, this.password)
 }
-
 
 //* Virtual password
 userSchema
@@ -37,6 +34,5 @@ userSchema.pre('validate', function checkPassword(next) {
 })
 userSchema.plugin(uniqueValidator)
 userSchema.plugin(mongooseHidden({ defaultHidden: { password: true, email: true } }))
-
 
 export default mongoose.model('User', userSchema)
