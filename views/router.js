@@ -17,7 +17,6 @@ router.route('/register')
 router.route('/login')
   .post(userController.login)
 
-
 //* Album routes
 router.route('/albums')
   .get(albumsController.albumIndex)

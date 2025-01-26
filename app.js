@@ -8,7 +8,14 @@ const app = express()
 
 app.use(express.json())
 
-app.use(cors())
+// Enable CORS for specific origin (localhost:3000 for React frontend)
+const corsOptions = {
+    origin: 'http://localhost:3000', // Allow requests only from this origin
+    methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allow the specific methods
+    allowedHeaders: ['Content-Type', 'Authorization'], // Allowed headers
+  };
+
+app.use(cors(corsOptions))
 
 app.use(logger)
 
