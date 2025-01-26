@@ -186,3 +186,12 @@ A future consideration would be making it easy to extract the contents of a syst
 ### Frontend
 
 The additional features in the Front End will include a LyricSheet Editor and a suitably elegant way to get to your versioned DAW, Audio Files etc from the SongListItem.
+
+### .env file
+
+For the Mongo Atlas integration to work you must generate a .env file to be read by dotenv. It must have the following properties:
+
+musicianmatemongoatlas_db_pw
+musicianmatemongoatlas_project_uri
+musicianmatemongoatlas_db_username
+musicianmatemongoatlas_app_name

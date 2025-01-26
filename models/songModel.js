@@ -16,8 +16,7 @@ const songSchema = new mongoose.Schema({
   likesCount: { type: Number, default: 0 },
   user: { type: mongoose.Schema.ObjectId, ref: 'User' },
   isDeleted: { type: Boolean, default: false, required: true },
-  officialLyricSheet: { type: mongoose.Schema.ObjectId, ref: 'LyricSheet', required: true }, //MOCK DATA
-  //TODO: remove default and set up some initial data where these songs are linked to lyric sheets with ids so that this mocking is not necessary
+  officialLyricSheet: { type: mongoose.Schema.ObjectId, ref: 'LyricSheet', required: true }, 
 })
 
 export default mongoose.model('Song', songSchema)
